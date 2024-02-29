@@ -53,6 +53,12 @@ public class Constants {
         NUMBER_MAP.put(NONILLION, "нониллион");
     }
 
+    /**
+     * Retrieves the name associated with the given number from the NUMBER_MAP.
+     *
+     * @param number The number for which to retrieve the associated name.
+     * @return The name associated with the given number, or null if the number is not found in the map.
+     */
     public static String getNameByNumber(BigInteger number) {
         return NUMBER_MAP.get(number);
     }

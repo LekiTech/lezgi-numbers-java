@@ -1,12 +1,13 @@
 package io.lekitech;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class NumToLezgiTest extends TestCase {
+public class NumToLezgiTest {
+    @Test
     public void testNumToLezgi() {
         BigInteger bigInteger = new BigInteger("10");
         String actual = NumToLezgi.numToLezgi(bigInteger);
