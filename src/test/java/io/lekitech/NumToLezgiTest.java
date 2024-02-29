@@ -9,11 +9,19 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 public class NumToLezgiTest {
     @Test
+    public void getThirtyPlusBaseTest() {
+        assertThat(NumToLezgi.getThirtyPlusBase(BigInteger.valueOf(32)))
+                .isEqualTo("къанни цIи");
+        assertThat(NumToLezgi.getThirtyPlusBase(BigInteger.valueOf(36)))
+                .isEqualTo("къанни цIу");
+    }
+
+    @Test
     public void getTwentyPlusBaseTest() {
         assertThat(NumToLezgi.getTwentyPlusBase(BigInteger.valueOf(20)))
                 .isEqualTo("къад");
         assertThat(NumToLezgi.getTwentyPlusBase(BigInteger.valueOf(22)))
-                .isEqualTo("къанни");
+                .isEqualTo("къанни ");
     }
 
     @Test

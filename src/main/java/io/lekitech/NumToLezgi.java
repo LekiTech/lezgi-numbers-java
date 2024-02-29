@@ -87,8 +87,19 @@ public class NumToLezgi {
      * @return The name for 20, or "къанни" if num is not 20.
      */
     public static String getTwentyPlusBase(BigInteger num) {
-        return isBigIntegerEqualTo(num, BigInteger.valueOf(20)) ?
-                Constants.getNameByNumber(BigInteger.valueOf(20)) : "къанни";
+        return isBigIntegerEqualTo(num, BigInteger.valueOf(20))
+                ? Constants.getNameByNumber(BigInteger.valueOf(20)) : "къанни ";
+    }
+
+    /**
+     * Combines the names for the numbers 20 and 10, based on the given number.
+     *
+     * @param num The BigInteger representing the number to be evaluated.
+     * @return The combined name for the numbers 20 and 10.
+     */
+    public static String getThirtyPlusBase(BigInteger num) {
+        return getTwentyPlusBase(num)
+                + getTenPlusBase(num.subtract(BigInteger.valueOf(20)));
     }
 
     /**
