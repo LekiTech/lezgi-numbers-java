@@ -9,6 +9,14 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 public class NumToLezgiTest {
     @Test
+    public void getTwentyPlusBaseTest() {
+        assertThat(NumToLezgi.getTwentyPlusBase(BigInteger.valueOf(20)))
+                .isEqualTo("къад");
+        assertThat(NumToLezgi.getTwentyPlusBase(BigInteger.valueOf(22)))
+                .isEqualTo("къанни");
+    }
+
+    @Test
     public void getTenPlusBaseTest() {
         assertThatThrownBy(() -> NumToLezgi.getTenPlusBase(BigInteger.valueOf(6)))
                 .isInstanceOf(IllegalArgumentException.class);

@@ -81,42 +81,53 @@ public class NumToLezgi {
     }
 
     /**
+     * Returns the name for the number 20, or "къанни" if num is not 20.
+     *
+     * @param num The number to evaluate.
+     * @return The name for 20, or "къанни" if num is not 20.
+     */
+    public static String getTwentyPlusBase(BigInteger num) {
+        return isBigIntegerEqualTo(num, BigInteger.valueOf(20)) ?
+                Constants.getNameByNumber(BigInteger.valueOf(20)) : "къанни";
+    }
+
+    /**
      * Retrieves the name of a compound based on the provided number.
      * This method is a placeholder and currently returns an empty string.
      *
-     * @param number The number for which to retrieve the compound name.
+     * @param num The number for which to retrieve the compound name.
      * @return The name of the compound.
      */
-    public static String getCompound(BigInteger number) {
+    public static String getCompound(BigInteger num) {
         return "";
     }
 
     /**
      * Returns the name of an atomic or compound element based on the given number.
      *
-     * @param number The BigInteger representing the atomic or compound element.
+     * @param num The BigInteger representing the atomic or compound element.
      * @return The name of the atomic or compound element, or a compound name if not found.
      */
-    public static String getAtomicOrCompound(BigInteger number) {
-        String result = Constants.getNameByNumber(number);
-        return result != null ? result : getCompound(number);
+    public static String getAtomicOrCompound(BigInteger num) {
+        String result = Constants.getNameByNumber(num);
+        return result != null ? result : getCompound(num);
     }
 
     /**
      * Converts the given number to its Lezgi representation.
      * If the provided number is null, an IllegalArgumentException is thrown.
      *
-     * @param number The number to be converted to Lezgi representation.
+     * @param num The number to be converted to Lezgi representation.
      * @return The Lezgi representation of the given number.
      * @throws IllegalArgumentException If the provided number is null.
      */
-    public static String numToLezgi(BigInteger number) {
-        if (number == null) {
+    public static String numToLezgi(BigInteger num) {
+        if (num == null) {
             throw new IllegalArgumentException("Provided value is null");
         }
-        boolean isNegative = number.signum() < 0;
-        number = number.abs();
-        String numberName = Constants.getNameByNumber(number);
+        boolean isNegative = num.signum() < 0;
+        num = num.abs();
+        String numberName = Constants.getNameByNumber(num);
         return isNegative ? Constants.MINUS + " " + numberName
                 : numberName;
     }
