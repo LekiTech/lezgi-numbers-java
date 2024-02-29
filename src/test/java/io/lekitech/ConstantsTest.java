@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.*;
 public class ConstantsTest {
     @Test
     public void getNameByNumberTest() {
-        BigInteger bigInteger = new BigInteger("1");
+        BigInteger bigInteger = BigInteger.valueOf(1);
         String actual = Constants.getNameByNumber(bigInteger);
         String expected = "сад";
         assertThat(actual).isEqualTo(expected);
