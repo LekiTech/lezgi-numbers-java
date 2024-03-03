@@ -52,6 +52,7 @@ public class Constants {
         NUMBER_MAP.put(OCTILLION, "октиллион");
         NUMBER_MAP.put(NONILLION, "нониллион");
     }
+
     /**
      * Retrieves the name associated with the given number from the NUMBER_MAP.
      *

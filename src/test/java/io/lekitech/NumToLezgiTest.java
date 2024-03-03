@@ -11,6 +11,14 @@ public class NumToLezgiTest {
     @Test
     public void NumToLezgiExpressTest() {
         Map<BigInteger, String> map = Map.ofEntries(
+                Map.entry(BigInteger.valueOf(2142512412),
+                        "кьве миллиардни вишни яхцIурни кьвед миллионни " +
+                                "вад вишни цIикьвед агъзурни кьуд вишни цIикьвед"),
+                Map.entry(BigInteger.valueOf(998271672),
+                        "кIуьд вишни кьудкъанни цIемуьжуьд миллионни кьве вишни " +
+                                "пудкъанни цIусад агъзурни ругуд вишни пудкъанни цIикьвед"),
+                Map.entry(BigInteger.valueOf(899),
+                        "муьжуьд вишни кьудкъанни цIекIуьд"),
                 Map.entry(BigInteger.valueOf(1986),
                         "агъзурни кIуьд вишни кьудкъанни ругуд"),
                 Map.entry(BigInteger.valueOf(1917),
