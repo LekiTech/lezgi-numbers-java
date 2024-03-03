@@ -9,7 +9,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class NumToLezgiTest {
     @Test
-    public void NumToLezgiTest() {
+    public void NumToLezgiExpressTest() {
         Map<BigInteger, String> map = Map.ofEntries(
                 Map.entry(BigInteger.valueOf(1986),
                         "агъзурни кIуьд вишни кьудкъанни ругуд"),
