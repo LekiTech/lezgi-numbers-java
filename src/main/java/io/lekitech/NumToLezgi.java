@@ -4,10 +4,11 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static io.lekitech.Constants.*;
+
 public class NumToLezgi {
-    private static List<String> resultList = new ArrayList<>();
     public static List<BigInteger> separateNumberIntoUnits(BigInteger num) {
         if (isEqualTo(num, BigInteger.ZERO)) {
             return List.of(BigInteger.ZERO);
@@ -155,7 +156,7 @@ public class NumToLezgi {
         }
         List<String> result = new ArrayList<>();
         result.add(isEqualTo(num, BigInteger.valueOf(2))
-                    ? getName(num).substring(0, getName(num).length() - 1) : getName(num));
+                ? getName(num).substring(0, getName(num).length() - 1) : getName(num));
         return result;
     }
 
@@ -503,38 +504,24 @@ public class NumToLezgi {
         }
         boolean isNegative = num.signum() < 0;
         num = num.abs();
-        List<String> list = getAtomicOrCompound(num);
         List<String> result = new ArrayList<>();
         if (isNegative) {
-            result.add(MINUS);
-            result.add(" ");
-            for (String el : list) {
-                if (el.endsWith("ни")) {
-                    result.add(el);
-                    result.add(" ");
-                } else {
-                    result.add(el);
-                }
-            }
-        } else {
-            for (String el : list) {
-                if (el.endsWith("ни")) {
-                    result.add(el);
-                    result.add(" ");
-                } else {
-                    result.add(el);
-                }
-            }
+            result.addAll(List.of(MINUS, " "));
         }
+        getAtomicOrCompound(num).stream()
+                .forEach(el -> {
+                    result.add(el);
+                    if (el.endsWith("ни")) {
+                        result.add(" ");
+                    }
+                });
         return result;
     }
 
     public static String numToLezgi(BigInteger num) {
-        StringBuilder sB = new StringBuilder();
-        numToLezgiList(num).stream()
-                .forEach(sB::append);
-        return sB.toString();
+        return String.join("", numToLezgiList(num));
     }
+
     public static boolean isGreaterThan(BigInteger num, BigInteger compareValue) {
         return num.compareTo(compareValue) > 0;
     }

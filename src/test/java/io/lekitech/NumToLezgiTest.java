@@ -108,8 +108,8 @@ public class NumToLezgiTest {
     }
 
     private class TestStructure {
-        private String resultString;
-        private List<String> resultList;
+        private final String resultString;
+        private final List<String> resultList;
 
         public TestStructure(String resultString, List<String> resultList) {
             this.resultString = resultString;
