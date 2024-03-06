@@ -55,6 +55,7 @@ public class NumToLezgi {
         String result10 = getName(BigInteger.valueOf(10));
         if (isEqualTo(num, BigInteger.TEN)) {
             result.add(result10);
+            return result;
         }
         String base10 = result10.
                 substring(0, result10.length() - 2);
@@ -62,8 +63,10 @@ public class NumToLezgi {
                 || isEqualTo(num, BigInteger.valueOf(15))
                 || isEqualTo(num, BigInteger.valueOf(16))) {
             result.add(base10 + "у");
+            return result;
         } else if (isLessThan(num, BigInteger.valueOf(15))) {
             result.add(base10 + "и");
+            return result;
         }
         result.add(base10 + "е");
         return result;
@@ -147,6 +150,9 @@ public class NumToLezgi {
     }
 
     public static List<String> getHundredPlusNumCount(BigInteger num) {
+        if (getName(num) == null) {
+            return null;
+        }
         List<String> result = new ArrayList<>();
         result.add(isEqualTo(num, BigInteger.valueOf(2))
                     ? getName(num).substring(0, getName(num).length() - 1) : getName(num));
@@ -491,7 +497,7 @@ public class NumToLezgi {
      * @return The Lezgi language representation of the given number.
      * @throws IllegalArgumentException if the provided number is null.
      */
-    public static List<String> numToLezgi(BigInteger num) {
+    public static List<String> numToLezgiList(BigInteger num) {
         if (num == null) {
             throw new IllegalArgumentException("Provided value is null");
         }
@@ -502,7 +508,14 @@ public class NumToLezgi {
         if (isNegative) {
             result.add(MINUS);
             result.add(" ");
-            result.addAll(list);
+            for (String el : list) {
+                if (el.endsWith("ни")) {
+                    result.add(el);
+                    result.add(" ");
+                } else {
+                    result.add(el);
+                }
+            }
         } else {
             for (String el : list) {
                 if (el.endsWith("ни")) {
@@ -514,6 +527,13 @@ public class NumToLezgi {
             }
         }
         return result;
+    }
+
+    public static String numToLezgi(BigInteger num) {
+        StringBuilder sB = new StringBuilder();
+        numToLezgiList(num).stream()
+                .forEach(sB::append);
+        return sB.toString();
     }
     public static boolean isGreaterThan(BigInteger num, BigInteger compareValue) {
         return num.compareTo(compareValue) > 0;
