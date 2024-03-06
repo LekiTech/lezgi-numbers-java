@@ -4,7 +4,7 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Constants {
+public final class Constants {
     public static final BigInteger MILLION =
             new BigInteger("1000000");
     public static final BigInteger BILLION =
@@ -130,12 +130,12 @@ public class Constants {
                 new AllowedRange("сад", 1, NONILLION)));
     }
 
-    private static class Numeral {
-        BigInteger value;
-        boolean requiresNext;
-        AllowedRange allowedNext;
+    public static class Numeral {
+        public BigInteger value;
+        public boolean requiresNext;
+        public AllowedRange allowedNext;
 
-        Numeral(BigInteger value, boolean requiresNext) {
+        public Numeral(BigInteger value, boolean requiresNext) {
             this.value = value;
             this.requiresNext = requiresNext;
         }
@@ -147,37 +147,31 @@ public class Constants {
         }
     }
 
-    private static class AllowedRange {
-        String minStr;
-        int min;
-        BigInteger max;
+    public static class AllowedRange {
+        public String minStr;
+        public int min;
+        public BigInteger max;
 
-        AllowedRange(String minStr, int min, BigInteger max) {
+        public AllowedRange(String minStr, int min, BigInteger max) {
             this.minStr = minStr;
             this.min = min;
             this.max = max;
         }
     }
 
-    /**
-     * Retrieves the name associated with the given number from the ATOMIC.
-     *
-     * @param number The number for which to retrieve the associated name.
-     * @return The name associated with the given number, or null if the number is not found in the map.
-     */
-    public static String getNameByNumber(BigInteger number) {
+    public static String getAtomicValueByKey(BigInteger number) {
         return ATOMIC.get(number);
     }
 
-    /**
-     * Returns the numerical value associated with the specified numeral name.
-     *
-     * @param name the name of the numeral to retrieve the numerical value for
-     * @return the numerical value associated with the specified numeral name
-     * @throws NullPointerException if the specified name does not exist in NUMERALS
-     * or if the corresponding numerical value is null
-     */
-    public static BigInteger getNumberByName(String name) {
-        return NUMERALS.get(name).value;
+    public static Numeral getNumeralByKey(String name) {
+        return NUMERALS.get(name);
+    }
+
+    public static BigInteger getNumeralValueByKey(String name) {
+        return getNumeralByKey(name).value;
+    }
+
+    public static boolean isValidKeyByNumeral(String name) {
+        return NUMERALS.containsKey(name);
     }
 }

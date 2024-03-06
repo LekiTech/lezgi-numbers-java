@@ -3,8 +3,11 @@ package io.lekitech;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+import static io.lekitech.Constants.*;
 public class NumToLezgi {
+    private static List<String> resultList = new ArrayList<>();
     public static List<BigInteger> separateNumberIntoUnits(BigInteger num) {
         if (isEqualTo(num, BigInteger.ZERO)) {
             return List.of(BigInteger.ZERO);
@@ -50,6 +53,7 @@ public class NumToLezgi {
         }
         String result10 = getName(BigInteger.valueOf(10));
         if (isEqualTo(num, BigInteger.TEN)) {
+            resultList.add(result10);
             return result10;
         }
         String base10 = result10.
@@ -57,14 +61,20 @@ public class NumToLezgi {
         if (isEqualTo(num, BigInteger.valueOf(11))
                 || isEqualTo(num, BigInteger.valueOf(15))
                 || isEqualTo(num, BigInteger.valueOf(16))) {
+            resultList.add(base10 + "у");
             return base10 + "у";
         } else if (isLessThan(num, BigInteger.valueOf(15))) {
+            resultList.add(base10 + "и");
             return base10 + "и";
         }
+        resultList.add(base10 + "е");
         return base10 + "е";
     }
 
     public static String getTwentyPlusBase(BigInteger num) {
+        resultList.add(isEqualTo(num, BigInteger.valueOf(20))
+                    ? getName(BigInteger.valueOf(20)) : "къанни");
+        //resultList.add(" ");
         return isEqualTo(num, BigInteger.valueOf(20))
                 ? getName(BigInteger.valueOf(20)) : "къанни ";
     }
@@ -75,6 +85,11 @@ public class NumToLezgi {
     }
 
     public static String getFourtyPlusBase(BigInteger num) {
+        resultList.add(getName(BigInteger.valueOf(40)));
+        if (!isEqualTo(num, BigInteger.valueOf(40))) {
+            resultList.add("ни");
+            //resultList.add(" ");
+        }
         return isEqualTo(num, BigInteger.valueOf(40))
                 ? getName(BigInteger.valueOf(40))
                 : getName(BigInteger.valueOf(40)) + "ни ";
@@ -86,6 +101,12 @@ public class NumToLezgi {
     }
 
     public static String getSixtyPlusBase(BigInteger num) {
+        if (isEqualTo(num, BigInteger.valueOf(60))) {
+            resultList.add(getName(BigInteger.valueOf(3)));
+            resultList.add(getName(BigInteger.valueOf(20)));
+        } else {
+            resultList.add(getName(BigInteger.valueOf(3)));
+        }
         return isEqualTo(num, BigInteger.valueOf(60))
                 ? getName(BigInteger.valueOf(3)) + getName(BigInteger.valueOf(20))
                 : getName(BigInteger.valueOf(3)) + getTwentyPlusBase(num);
@@ -97,6 +118,12 @@ public class NumToLezgi {
     }
 
     public static String getEightyPlusBase(BigInteger num) {
+        if (isEqualTo(num, BigInteger.valueOf(80))) {
+            resultList.add(getName(BigInteger.valueOf(4)));
+            resultList.add(getName(BigInteger.valueOf(20)));
+        } else {
+            resultList.add(getName(BigInteger.valueOf(4)));
+        }
         return isEqualTo(num, BigInteger.valueOf(80))
                 ? getName(BigInteger.valueOf(4)) + getName(BigInteger.valueOf(20))
                 : getName(BigInteger.valueOf(4)) + getTwentyPlusBase(num);
@@ -108,14 +135,20 @@ public class NumToLezgi {
     }
 
     public static String getHundredPlusBase(BigInteger num) {
+        resultList.add(getName(BigInteger.valueOf(100)));
+        if (!isEqualTo(num.mod(BigInteger.valueOf(100)), BigInteger.ZERO)) {
+            resultList.add("ни");
+            resultList.add(" ");
+        }
         return isEqualTo(num.mod(BigInteger.valueOf(100)), BigInteger.ZERO)
                 ? getName(BigInteger.valueOf(100)) : getName(BigInteger.valueOf(100)) + "ни ";
     }
 
-    public static String getHundredPlusNumCount(BigInteger numCount) {
-        String atomicName = getName(numCount);
-        return isEqualTo(numCount, BigInteger.valueOf(2))
-                ? atomicName.substring(0, atomicName.length() - 1) : atomicName;
+    public static String getHundredPlusNumCount(BigInteger num) {
+        resultList.add(isEqualTo(num, BigInteger.valueOf(2))
+                    ? getName(num).substring(0, getName(num).length() - 1) : getName(num));
+        return isEqualTo(num, BigInteger.valueOf(2))
+                ? getName(num).substring(0, getName(num).length() - 1) : getName(num);
     }
 
     public static String getBetweenHundredAndThousand(BigInteger num, BigInteger followUpNumber) {
@@ -127,6 +160,11 @@ public class NumToLezgi {
     }
 
     public static String getThousandPlusBase(BigInteger num) {
+        resultList.add(getName(BigInteger.valueOf(1000)));
+        if (!isEqualTo(num.mod(BigInteger.valueOf(1000)), BigInteger.ZERO)) {
+            resultList.add("ни");
+            resultList.add(" ");
+        }
         return isEqualTo(num.mod(BigInteger.valueOf(1000)), BigInteger.ZERO)
                 ? getName(BigInteger.valueOf(1000)) : getName(BigInteger.valueOf(1000)) + "ни ";
     }
@@ -143,14 +181,19 @@ public class NumToLezgi {
     }
 
     public static String getMillionPlusBase(BigInteger num) {
-        return isEqualTo(num.mod(Constants.MILLION), BigInteger.ZERO)
-                ? getName(Constants.MILLION) : getName(Constants.MILLION) + "ни ";
+        resultList.add(getName(MILLION));
+        if (!isEqualTo(num.mod(MILLION), BigInteger.ZERO)) {
+            resultList.add("ни");
+            resultList.add(" ");
+        }
+        return isEqualTo(num.mod(MILLION), BigInteger.ZERO)
+                ? getName(MILLION) : getName(MILLION) + "ни ";
     }
 
     public static String getBetweenMillionAndBillion(BigInteger num, BigInteger followUpNumber) {
         BigInteger millionsCount;
-        millionsCount = !isEqualTo(num.mod(Constants.MILLION), BigInteger.ZERO)
-                ? num.subtract(num.mod(Constants.MILLION)) : num.divide(Constants.MILLION);
+        millionsCount = !isEqualTo(num.mod(MILLION), BigInteger.ZERO)
+                ? num.subtract(num.mod(MILLION)) : num.divide(MILLION);
         String millionsCountLezgi = getHundredPlusNumCount(millionsCount);
         if (millionsCountLezgi == null) {
             millionsCountLezgi = getCompound(millionsCount);
@@ -159,14 +202,19 @@ public class NumToLezgi {
     }
 
     public static String getBillionPlusBase(BigInteger num) {
-        return isEqualTo(num.mod(Constants.BILLION), BigInteger.ZERO)
-                ? getName(Constants.BILLION) : getName(Constants.BILLION) + "ни ";
+        resultList.add(getName(BILLION));
+        if (!isEqualTo(num.mod(BILLION), BigInteger.ZERO)) {
+            resultList.add("ни");
+            resultList.add(" ");
+        }
+        return isEqualTo(num.mod(BILLION), BigInteger.ZERO)
+                ? getName(BILLION) : getName(BILLION) + "ни ";
     }
 
     public static String getBetweenBillionAndTrillion(BigInteger num, BigInteger followUpNumber) {
         BigInteger billionsCount;
-        billionsCount = !isEqualTo(num.mod(Constants.BILLION), BigInteger.ZERO)
-                ? num.subtract(num.mod(Constants.BILLION)) : num.divide(Constants.BILLION);
+        billionsCount = !isEqualTo(num.mod(BILLION), BigInteger.ZERO)
+                ? num.subtract(num.mod(BILLION)) : num.divide(BILLION);
         String billionsCountLezgi = getHundredPlusNumCount(billionsCount);
         if (billionsCountLezgi == null) {
             billionsCountLezgi = getCompound(billionsCount);
@@ -175,14 +223,19 @@ public class NumToLezgi {
     }
 
     public static String getTrillionPlusBase(BigInteger num) {
-        return isEqualTo(num.mod(Constants.TRILLION), BigInteger.ZERO)
-                ? getName(Constants.TRILLION) : getName(Constants.TRILLION) + "ни ";
+        resultList.add(getName(TRILLION));
+        if (!isEqualTo(num.mod(TRILLION), BigInteger.ZERO)) {
+            resultList.add("ни");
+            resultList.add(" ");
+        }
+        return isEqualTo(num.mod(TRILLION), BigInteger.ZERO)
+                ? getName(TRILLION) : getName(TRILLION) + "ни ";
     }
 
     public static String getBetweenTrillionAndQuadrillion(BigInteger num, BigInteger followUpNumber) {
         BigInteger trillionsCount;
-        trillionsCount = !isEqualTo(num.mod(Constants.TRILLION), BigInteger.ZERO)
-                ? num.subtract(num.mod(Constants.TRILLION)) : num.divide(Constants.TRILLION);
+        trillionsCount = !isEqualTo(num.mod(TRILLION), BigInteger.ZERO)
+                ? num.subtract(num.mod(TRILLION)) : num.divide(TRILLION);
         String trillionsCountLezgi = getHundredPlusNumCount(trillionsCount);
         if (trillionsCountLezgi == null) {
             trillionsCountLezgi = getCompound(trillionsCount);
@@ -191,14 +244,19 @@ public class NumToLezgi {
     }
 
     public static String getQuadrillionPlusBase(BigInteger num) {
-        return isEqualTo(num.mod(Constants.QUADRILLION), BigInteger.ZERO)
-                ? getName(Constants.QUADRILLION) : getName(Constants.QUADRILLION) + "ни ";
+        resultList.add(getName(QUADRILLION));
+        if (!isEqualTo(num.mod(QUADRILLION), BigInteger.ZERO)) {
+            resultList.add("ни");
+            resultList.add(" ");
+        }
+        return isEqualTo(num.mod(QUADRILLION), BigInteger.ZERO)
+                ? getName(QUADRILLION) : getName(QUADRILLION) + "ни ";
     }
 
     public static String getBetweenQuadrillionAndQuintillion(BigInteger num, BigInteger followUpNumber) {
         BigInteger quadrillionsCount;
-        quadrillionsCount = !isEqualTo(num.mod(Constants.QUADRILLION), BigInteger.ZERO)
-                ? num.subtract(num.mod(Constants.QUADRILLION)) : num.divide(Constants.QUADRILLION);
+        quadrillionsCount = !isEqualTo(num.mod(QUADRILLION), BigInteger.ZERO)
+                ? num.subtract(num.mod(QUADRILLION)) : num.divide(QUADRILLION);
         String quadrillionsCountLezgi = getHundredPlusNumCount(quadrillionsCount);
         if (quadrillionsCountLezgi == null) {
             quadrillionsCountLezgi = getCompound(quadrillionsCount);
@@ -207,14 +265,19 @@ public class NumToLezgi {
     }
 
     public static String getQuintillionPlusBase(BigInteger num) {
-        return isEqualTo(num.mod(Constants.QUINTILLION), BigInteger.ZERO)
-                ? getName(Constants.QUINTILLION) : getName(Constants.QUINTILLION) + "ни ";
+        resultList.add(getName(QUINTILLION));
+        if (!isEqualTo(num.mod(QUINTILLION), BigInteger.ZERO)) {
+            resultList.add("ни");
+            resultList.add(" ");
+        }
+        return isEqualTo(num.mod(QUINTILLION), BigInteger.ZERO)
+                ? getName(QUINTILLION) : getName(QUINTILLION) + "ни ";
     }
 
     public static String getBetweenQuintillionAndSextillion(BigInteger num, BigInteger followUpNumber) {
         BigInteger quintillionsCount;
-        quintillionsCount = !isEqualTo(num.mod(Constants.QUINTILLION), BigInteger.ZERO)
-                ? num.subtract(num.mod(Constants.QUINTILLION)) : num.divide(Constants.QUINTILLION);
+        quintillionsCount = !isEqualTo(num.mod(QUINTILLION), BigInteger.ZERO)
+                ? num.subtract(num.mod(QUINTILLION)) : num.divide(QUINTILLION);
         String quintillionsCountLezgi = getHundredPlusNumCount(quintillionsCount);
         if (quintillionsCountLezgi == null) {
             quintillionsCountLezgi = getCompound(quintillionsCount);
@@ -223,14 +286,19 @@ public class NumToLezgi {
     }
 
     public static String getSextillionPlusBase(BigInteger num) {
-        return isEqualTo(num.mod(Constants.SEXTILLION), BigInteger.ZERO)
-                ? getName(Constants.SEXTILLION) : getName(Constants.SEXTILLION) + "ни ";
+        resultList.add(getName(SEXTILLION));
+        if (!isEqualTo(num.mod(SEXTILLION), BigInteger.ZERO)) {
+            resultList.add("ни");
+            resultList.add(" ");
+        }
+        return isEqualTo(num.mod(SEXTILLION), BigInteger.ZERO)
+                ? getName(SEXTILLION) : getName(SEXTILLION) + "ни ";
     }
 
     public static String getBetweenSextillionAndSeptillion(BigInteger num, BigInteger followUpNumber) {
         BigInteger sextillionsCount;
-        sextillionsCount = !isEqualTo(num.mod(Constants.SEXTILLION), BigInteger.ZERO)
-                ? num.subtract(num.mod(Constants.SEXTILLION)) : num.divide(Constants.SEXTILLION);
+        sextillionsCount = !isEqualTo(num.mod(SEXTILLION), BigInteger.ZERO)
+                ? num.subtract(num.mod(SEXTILLION)) : num.divide(SEXTILLION);
         String sextillionsCountLezgi = getHundredPlusNumCount(sextillionsCount);
         if (sextillionsCountLezgi == null) {
             sextillionsCountLezgi = getCompound(sextillionsCount);
@@ -239,14 +307,19 @@ public class NumToLezgi {
     }
 
     public static String getSeptillionPlusBase(BigInteger num) {
-        return isEqualTo(num.mod(Constants.SEPTILLION), BigInteger.ZERO)
-                ? getName(Constants.SEPTILLION) : getName(Constants.SEPTILLION) + "ни ";
+        resultList.add(getName(SEPTILLION));
+        if (!isEqualTo(num.mod(SEPTILLION), BigInteger.ZERO)) {
+            resultList.add("ни");
+            resultList.add(" ");
+        }
+        return isEqualTo(num.mod(SEPTILLION), BigInteger.ZERO)
+                ? getName(SEPTILLION) : getName(SEPTILLION) + "ни ";
     }
 
     public static String getBetweenSeptillionAndOctillion(BigInteger num, BigInteger followUpNumber) {
         BigInteger septillionsCount;
-        septillionsCount = !isEqualTo(num.mod(Constants.SEPTILLION), BigInteger.ZERO)
-                ? num.subtract(num.mod(Constants.SEPTILLION)) : num.divide(Constants.SEPTILLION);
+        septillionsCount = !isEqualTo(num.mod(SEPTILLION), BigInteger.ZERO)
+                ? num.subtract(num.mod(SEPTILLION)) : num.divide(SEPTILLION);
         String septillionsCountLezgi = getHundredPlusNumCount(septillionsCount);
         if (septillionsCountLezgi == null) {
             septillionsCountLezgi = getCompound(septillionsCount);
@@ -255,14 +328,19 @@ public class NumToLezgi {
     }
 
     public static String getOctillionPlusBase(BigInteger num) {
-        return isEqualTo(num.mod(Constants.OCTILLION), BigInteger.ZERO)
-                ? getName(Constants.OCTILLION) : getName(Constants.OCTILLION) + "ни ";
+        resultList.add(getName(OCTILLION));
+        if (!isEqualTo(num.mod(OCTILLION), BigInteger.ZERO)) {
+            resultList.add("ни");
+            resultList.add(" ");
+        }
+        return isEqualTo(num.mod(OCTILLION), BigInteger.ZERO)
+                ? getName(OCTILLION) : getName(OCTILLION) + "ни ";
     }
 
     public static String getBetweenOctillionAndNonillion(BigInteger num, BigInteger followUpNumber) {
         BigInteger octillionsCount;
-        octillionsCount = !isEqualTo(num.mod(Constants.OCTILLION), BigInteger.ZERO)
-                ? num.subtract(num.mod(Constants.OCTILLION)) : num.divide(Constants.OCTILLION);
+        octillionsCount = !isEqualTo(num.mod(OCTILLION), BigInteger.ZERO)
+                ? num.subtract(num.mod(OCTILLION)) : num.divide(OCTILLION);
         String octillionsCountLezgi = getHundredPlusNumCount(octillionsCount);
         if (octillionsCountLezgi == null) {
             octillionsCountLezgi = getCompound(octillionsCount);
@@ -271,8 +349,13 @@ public class NumToLezgi {
     }
 
     public static String getNonillionPlusBase(BigInteger num) {
-        return isEqualTo(num.mod(Constants.NONILLION), BigInteger.ZERO)
-                ? getName(Constants.NONILLION) : getName(Constants.NONILLION) + "ни ";
+        resultList.add(getName(NONILLION));
+        if (!isEqualTo(num.mod(NONILLION), BigInteger.ZERO)) {
+            resultList.add("ни");
+            resultList.add(" ");
+        }
+        return isEqualTo(num.mod(NONILLION), BigInteger.ZERO)
+                ? getName(NONILLION) : getName(NONILLION) + "ни ";
     }
 
     public static String getCompound(BigInteger num) {
@@ -291,69 +374,103 @@ public class NumToLezgi {
                     || isEqualTo(units.get(i - 1), BigInteger.valueOf(70))
                     || isEqualTo(units.get(i - 1), BigInteger.valueOf(90)))) {
                 result.add(getName(BigInteger.valueOf(7)).substring(1));
+                resultList.add(getName(BigInteger.valueOf(7)).substring(1));
+                System.out.println("1");
             } else if (isEqualTo(unit, BigInteger.TEN)) {
                 result.add(getTenPlusBase(unit.add(followUpNumber)));
+                System.out.println("2");
             } else if (isEqualTo(unit, BigInteger.valueOf(20))) {
                 result.add(getTwentyPlusBase(unit.add(followUpNumber)));
+                System.out.println("3");
             } else if (isEqualTo(unit, BigInteger.valueOf(30))) {
                 result.add(getThirtyPlusBase(unit.add(followUpNumber)));
+                System.out.println("4");
             } else if (isEqualTo(unit, BigInteger.valueOf(40))) {
                 result.add(getFourtyPlusBase(unit.add(followUpNumber)));
+                System.out.println("5");
             } else if (isEqualTo(unit, BigInteger.valueOf(50))) {
                 result.add(getFiftyPlusBase(unit.add(followUpNumber)));
+                System.out.println("6");
             } else if (isEqualTo(unit, BigInteger.valueOf(60))) {
                 result.add(getSixtyPlusBase(unit.add(followUpNumber)));
+                System.out.println("7");
             } else if (isEqualTo(unit, BigInteger.valueOf(70))) {
                 result.add(getSeventyPlusBase(unit.add(followUpNumber)));
+                System.out.println("8");
             } else if (isEqualTo(unit, BigInteger.valueOf(80))) {
                 result.add(getEightyPlusBase(unit.add(followUpNumber)));
+                System.out.println("9");
             } else if (isEqualTo(unit, BigInteger.valueOf(90))) {
                 result.add(getNinetyPlusBase(unit.add(followUpNumber)));
+                System.out.println("10");
             } else if (isEqualTo(unit, BigInteger.valueOf(100))) {
                 result.add(getHundredPlusBase(unit.add(followUpNumber)));
+                System.out.println("11");
             } else if (isGreaterThan(unit, BigInteger.valueOf(100)) && isLessThan(unit, BigInteger.valueOf(1000))) {
                 result.add(getBetweenHundredAndThousand(unit, followUpNumber));
+                System.out.println("12");
             } else if (isEqualTo(unit, BigInteger.valueOf(1000))) {
                 result.add(getThousandPlusBase(unit.add(followUpNumber)));
-            } else if (isGreaterThan(unit, BigInteger.valueOf(1000)) && isLessThan(unit, Constants.MILLION)) {
+                System.out.println("13");
+            } else if (isGreaterThan(unit, BigInteger.valueOf(1000)) && isLessThan(unit, MILLION)) {
                 result.add(getBetweenThousandAndMillion(unit, followUpNumber));
-            } else if (isEqualTo(unit, Constants.MILLION)) {
+                System.out.println("14");
+            } else if (isEqualTo(unit, MILLION)) {
                 result.add(getMillionPlusBase(unit.add(followUpNumber)));
-            } else if (isGreaterThan(unit, Constants.MILLION) && isLessThan(unit, Constants.BILLION)) {
+                System.out.println("15");
+            } else if (isGreaterThan(unit, MILLION) && isLessThan(unit, BILLION)) {
                 result.add(getBetweenMillionAndBillion(unit, followUpNumber));
-            } else if (isEqualTo(unit, Constants.BILLION)) {
+                System.out.println("16");
+            } else if (isEqualTo(unit, BILLION)) {
                 result.add(getBillionPlusBase(unit.add(followUpNumber)));
-            } else if (isGreaterThan(unit, Constants.BILLION) && isLessThan(unit, Constants.TRILLION)) {
+                System.out.println("17");
+            } else if (isGreaterThan(unit, BILLION) && isLessThan(unit, TRILLION)) {
                 result.add(getBetweenBillionAndTrillion(unit, followUpNumber));
-            } else if (isEqualTo(unit, Constants.TRILLION)) {
+                System.out.println("18");
+            } else if (isEqualTo(unit, TRILLION)) {
                 result.add(getTrillionPlusBase(unit.add(followUpNumber)));
-            } else if (isGreaterThan(unit, Constants.TRILLION) && isLessThan(unit, Constants.QUADRILLION)) {
+                System.out.println("19");
+            } else if (isGreaterThan(unit, TRILLION) && isLessThan(unit, QUADRILLION)) {
                 result.add(getBetweenTrillionAndQuadrillion(unit, followUpNumber));
-            } else if (isEqualTo(unit, Constants.QUADRILLION)) {
+                System.out.println("20");
+            } else if (isEqualTo(unit, QUADRILLION)) {
                 result.add(getQuadrillionPlusBase(unit.add(followUpNumber)));
-            } else if (unit.compareTo(Constants.QUADRILLION) > 0 && isLessThan(unit, Constants.QUINTILLION)) {
+                System.out.println("21");
+            } else if (unit.compareTo(QUADRILLION) > 0 && isLessThan(unit, QUINTILLION)) {
                 result.add(getBetweenQuadrillionAndQuintillion(unit, followUpNumber));
-            } else if (isEqualTo(unit, Constants.QUINTILLION)) {
+                System.out.println("22");
+            } else if (isEqualTo(unit, QUINTILLION)) {
                 result.add(getQuintillionPlusBase(unit.add(followUpNumber)));
-            } else if (isGreaterThan(unit, Constants.QUINTILLION) && isLessThan(unit, Constants.SEXTILLION)) {
+                System.out.println("23");
+            } else if (isGreaterThan(unit, QUINTILLION) && isLessThan(unit, SEXTILLION)) {
                 result.add(getBetweenQuintillionAndSextillion(unit, followUpNumber));
-            } else if (isEqualTo(unit, Constants.SEXTILLION)) {
+                System.out.println("24");
+            } else if (isEqualTo(unit, SEXTILLION)) {
                 result.add(getSextillionPlusBase(unit.add(followUpNumber)));
-            } else if (isGreaterThan(unit, Constants.SEXTILLION) && isLessThan(unit, Constants.SEPTILLION)) {
+                System.out.println("25");
+            } else if (isGreaterThan(unit, SEXTILLION) && isLessThan(unit, SEPTILLION)) {
                 result.add(getBetweenSextillionAndSeptillion(unit, followUpNumber));
-            } else if (isEqualTo(unit, Constants.SEPTILLION)) {
+                System.out.println("26");
+            } else if (isEqualTo(unit, SEPTILLION)) {
                 result.add(getSeptillionPlusBase(unit.add(followUpNumber)));
-            } else if (isGreaterThan(unit, Constants.SEPTILLION) && isLessThan(unit, Constants.OCTILLION)) {
+                System.out.println("27");
+            } else if (isGreaterThan(unit, SEPTILLION) && isLessThan(unit, OCTILLION)) {
                 result.add(getBetweenSeptillionAndOctillion(unit, followUpNumber));
-            } else if (isEqualTo(unit, Constants.OCTILLION)) {
+                System.out.println("28");
+            } else if (isEqualTo(unit, OCTILLION)) {
                 result.add(getOctillionPlusBase(unit.add(followUpNumber)));
-            } else if (isGreaterThan(unit, Constants.OCTILLION) && isLessThan(unit, Constants.NONILLION)) {
+                System.out.println("29");
+            } else if (isGreaterThan(unit, OCTILLION) && isLessThan(unit, NONILLION)) {
                 result.add(getBetweenOctillionAndNonillion(unit, followUpNumber));
-            } else if (isEqualTo(unit, Constants.NONILLION)) {
+                System.out.println("30");
+            } else if (isEqualTo(unit, NONILLION)) {
                 result.add(getNonillionPlusBase(unit.add(followUpNumber)));
+                System.out.println("31");
             } else {
                 if (!(units.size() > 1 && isEqualTo(unit, BigInteger.ZERO))) {
                     result.add(getName(unit) + " ");
+                    resultList.add(getName(unit) + " ");
+                    System.out.println("32");
                 }
             }
         }
@@ -365,6 +482,9 @@ public class NumToLezgi {
     }
 
     public static String getAtomicOrCompound(BigInteger num) {
+        if (getName(num) != null) {
+            resultList.add(getName(num));
+        }
         return getName(num) != null ? getName(num) : getCompound(num);
     }
 
@@ -382,8 +502,13 @@ public class NumToLezgi {
         boolean isNegative = num.signum() < 0;
         num = num.abs();
         String numberName = getAtomicOrCompound(num);
-        return isNegative ? Constants.MINUS + " " + numberName
+        return isNegative ? MINUS + " " + numberName
                 : numberName;
+    }
+
+    public static List<String> numToLezgiList(BigInteger num) {
+        resultList.removeIf(Objects::isNull);
+        return resultList;
     }
 
     public static boolean isGreaterThan(BigInteger num, BigInteger compareValue) {
@@ -399,7 +524,7 @@ public class NumToLezgi {
     }
 
     public static String getName(BigInteger num) {
-        return Constants.getNameByNumber(num);
+        return getAtomicValueByKey(num);
     }
 
     private static class Range {
@@ -412,15 +537,15 @@ public class NumToLezgi {
         }
 
         private static List<Range> ranges = List.of(
-                new Range(Constants.NONILLION, Constants.OCTILLION),
-                new Range(Constants.OCTILLION, Constants.SEPTILLION),
-                new Range(Constants.SEPTILLION, Constants.SEXTILLION),
-                new Range(Constants.SEXTILLION, Constants.QUINTILLION),
-                new Range(Constants.QUADRILLION, Constants.QUINTILLION),
-                new Range(Constants.TRILLION, Constants.QUADRILLION),
-                new Range(Constants.BILLION, Constants.TRILLION),
-                new Range(Constants.MILLION, Constants.BILLION),
-                new Range(new BigInteger("1000"), Constants.MILLION)
+                new Range(NONILLION, OCTILLION),
+                new Range(OCTILLION, SEPTILLION),
+                new Range(SEPTILLION, SEXTILLION),
+                new Range(SEXTILLION, QUINTILLION),
+                new Range(QUADRILLION, QUINTILLION),
+                new Range(TRILLION, QUADRILLION),
+                new Range(BILLION, TRILLION),
+                new Range(MILLION, BILLION),
+                new Range(new BigInteger("1000"), MILLION)
         );
     }
 }
