@@ -3,8 +3,6 @@ package io.lekitech;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 import static io.lekitech.Constants.*;
 
@@ -81,8 +79,7 @@ public class NumToLezgi {
     }
 
     public static List<String> getThirtyPlusBase(BigInteger num) {
-        List<String> result = new ArrayList<>();
-        result.addAll(getTwentyPlusBase(num));
+        List<String> result = new ArrayList<>(getTwentyPlusBase(num));
         result.addAll(getTenPlusBase(num.subtract(BigInteger.valueOf(20))));
         return result;
     }
@@ -97,8 +94,7 @@ public class NumToLezgi {
     }
 
     public static List<String> getFiftyPlusBase(BigInteger num) {
-        List<String> result = new ArrayList<>();
-        result.addAll(getFourtyPlusBase(num));
+        List<String> result = new ArrayList<>(getFourtyPlusBase(num));
         result.addAll(getTenPlusBase(num.subtract(BigInteger.valueOf(40))));
         return result;
     }
@@ -116,8 +112,7 @@ public class NumToLezgi {
     }
 
     public static List<String> getSeventyPlusBase(BigInteger num) {
-        List<String> result = new ArrayList<>();
-        result.addAll(getSixtyPlusBase(BigInteger.valueOf(61)));
+        List<String> result = new ArrayList<>(getSixtyPlusBase(BigInteger.valueOf(61)));
         result.addAll(getTenPlusBase(num.subtract(BigInteger.valueOf(60))));
         return result;
     }
@@ -135,8 +130,7 @@ public class NumToLezgi {
     }
 
     public static List<String> getNinetyPlusBase(BigInteger num) {
-        List<String> result = new ArrayList<>();
-        result.addAll(getEightyPlusBase(BigInteger.valueOf(81)));
+        List<String> result = new ArrayList<>(getEightyPlusBase(BigInteger.valueOf(81)));
         result.addAll(getTenPlusBase(num.subtract(BigInteger.valueOf(80))));
         return result;
     }
@@ -188,8 +182,7 @@ public class NumToLezgi {
         if (thousandsCountLezgi == null) {
             thousandsCountLezgi = getCompound(thousandsCount);
         }
-        List<String> result = new ArrayList<>();
-        result.addAll(thousandsCountLezgi);
+        List<String> result = new ArrayList<>(thousandsCountLezgi);
         result.add(" ");
         result.addAll(getThousandPlusBase(num.add(followUpNumber)));
         return result;
@@ -212,8 +205,7 @@ public class NumToLezgi {
         if (millionsCountLezgi == null) {
             millionsCountLezgi = getCompound(millionsCount);
         }
-        List<String> result = new ArrayList<>();
-        result.addAll(millionsCountLezgi);
+        List<String> result = new ArrayList<>(millionsCountLezgi);
         result.add(" ");
         result.addAll(getMillionPlusBase(num.add(followUpNumber)));
         return result;
@@ -236,8 +228,7 @@ public class NumToLezgi {
         if (billionsCountLezgi == null) {
             billionsCountLezgi = getCompound(billionsCount);
         }
-        List<String> result = new ArrayList<>();
-        result.addAll(billionsCountLezgi);
+        List<String> result = new ArrayList<>(billionsCountLezgi);
         result.add(" ");
         result.addAll(getBillionPlusBase(num.add(followUpNumber)));
         return result;
@@ -260,8 +251,7 @@ public class NumToLezgi {
         if (trillionsCountLezgi == null) {
             trillionsCountLezgi = getCompound(trillionsCount);
         }
-        List<String> result = new ArrayList<>();
-        result.addAll(trillionsCountLezgi);
+        List<String> result = new ArrayList<>(trillionsCountLezgi);
         result.add(" ");
         result.addAll(getTrillionPlusBase(num.add(followUpNumber)));
         return result;
@@ -284,8 +274,7 @@ public class NumToLezgi {
         if (quadrillionsCountLezgi == null) {
             quadrillionsCountLezgi = getCompound(quadrillionsCount);
         }
-        List<String> result = new ArrayList<>();
-        result.addAll(quadrillionsCountLezgi);
+        List<String> result = new ArrayList<>(quadrillionsCountLezgi);
         result.add(" ");
         result.addAll(getQuadrillionPlusBase(num.add(followUpNumber)));
         return result;
@@ -308,8 +297,7 @@ public class NumToLezgi {
         if (quintillionsCountLezgi == null) {
             quintillionsCountLezgi = getCompound(quintillionsCount);
         }
-        List<String> result = new ArrayList<>();
-        result.addAll(quintillionsCountLezgi);
+        List<String> result = new ArrayList<>(quintillionsCountLezgi);
         result.add(" ");
         result.addAll(getQuintillionPlusBase(num.add(followUpNumber)));
         return result;
@@ -332,8 +320,7 @@ public class NumToLezgi {
         if (sextillionsCountLezgi == null) {
             sextillionsCountLezgi = getCompound(sextillionsCount);
         }
-        List<String> result = new ArrayList<>();
-        result.addAll(sextillionsCountLezgi);
+        List<String> result = new ArrayList<>(sextillionsCountLezgi);
         result.add(" ");
         result.addAll(getSextillionPlusBase(num.add(followUpNumber)));
         return result;
@@ -356,8 +343,7 @@ public class NumToLezgi {
         if (septillionsCountLezgi == null) {
             septillionsCountLezgi = getCompound(septillionsCount);
         }
-        List<String> result = new ArrayList<>();
-        result.addAll(septillionsCountLezgi);
+        List<String> result = new ArrayList<>(septillionsCountLezgi);
         result.add(" ");
         result.addAll(getSeptillionPlusBase(num.add(followUpNumber)));
         return result;
@@ -380,8 +366,7 @@ public class NumToLezgi {
         if (octillionsCountLezgi == null) {
             octillionsCountLezgi = getCompound(octillionsCount);
         }
-        List<String> result = new ArrayList<>();
-        result.addAll(octillionsCountLezgi);
+        List<String> result = new ArrayList<>(octillionsCountLezgi);
         result.add(" ");
         result.addAll(getOctillionPlusBase(num.add(followUpNumber)));
         return result;
@@ -518,6 +503,12 @@ public class NumToLezgi {
         return result;
     }
 
+    /**
+     * Converts a BigInteger to a Lezgi representation.
+     *
+     * @param num The number to be converted.
+     * @return The Lezgi representation of the given number.
+     */
     public static String numToLezgi(BigInteger num) {
         return String.join("", numToLezgiList(num));
     }
