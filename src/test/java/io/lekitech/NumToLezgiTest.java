@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 public class NumToLezgiTest {
     @Test
@@ -105,6 +106,12 @@ public class NumToLezgiTest {
             assertThat(NumToLezgi.numToLezgi(k)).isEqualTo(v.resultString);
             assertThat(NumToLezgi.numToLezgiList(k)).isEqualTo(v.resultList);
         });
+        assertThatThrownBy(() -> NumToLezgi.numToLezgi(null))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Provided value is null");
+        assertThatThrownBy(() -> NumToLezgi.numToLezgiList(null))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Provided value is null");
     }
 
     private class TestStructure {

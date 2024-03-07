@@ -7,7 +7,7 @@ import java.util.List;
 import static io.lekitech.Constants.*;
 
 public class NumToLezgi {
-    public static List<BigInteger> separateNumberIntoUnits(BigInteger num) {
+    private static List<BigInteger> separateNumberIntoUnits(BigInteger num) {
         if (isEqualTo(num, BigInteger.ZERO)) {
             return List.of(BigInteger.ZERO);
         }
@@ -22,7 +22,7 @@ public class NumToLezgi {
         return groupNumberUnitsToLezgiRange(result, Range.ranges);
     }
 
-    public static List<BigInteger> groupNumberUnitsToLezgiRange(List<BigInteger> arr, List<Range> ranges) {
+    private static List<BigInteger> groupNumberUnitsToLezgiRange(List<BigInteger> arr, List<Range> ranges) {
         List<BigInteger> result = new ArrayList<>();
         for (Range range : ranges) {
             BigInteger sum = BigInteger.ZERO;
@@ -44,7 +44,7 @@ public class NumToLezgi {
         return result;
     }
 
-    public static List<String> getTenPlusBase(BigInteger num) {
+    private static List<String> getTenPlusBase(BigInteger num) {
         List<String> result = new ArrayList<>();
         if (isLessThan(num, BigInteger.TEN)
                 || isGreaterThan(num, BigInteger.valueOf(20))
@@ -71,20 +71,20 @@ public class NumToLezgi {
         return result;
     }
 
-    public static List<String> getTwentyPlusBase(BigInteger num) {
+    private static List<String> getTwentyPlusBase(BigInteger num) {
         List<String> result = new ArrayList<>();
         result.add(isEqualTo(num, BigInteger.valueOf(20))
                 ? getName(BigInteger.valueOf(20)) : "къанни");
         return result;
     }
 
-    public static List<String> getThirtyPlusBase(BigInteger num) {
+    private static List<String> getThirtyPlusBase(BigInteger num) {
         List<String> result = new ArrayList<>(getTwentyPlusBase(num));
         result.addAll(getTenPlusBase(num.subtract(BigInteger.valueOf(20))));
         return result;
     }
 
-    public static List<String> getFourtyPlusBase(BigInteger num) {
+    private static List<String> getFourtyPlusBase(BigInteger num) {
         List<String> result = new ArrayList<>();
         result.add(getName(BigInteger.valueOf(40)));
         if (!isEqualTo(num, BigInteger.valueOf(40))) {
@@ -93,13 +93,13 @@ public class NumToLezgi {
         return result;
     }
 
-    public static List<String> getFiftyPlusBase(BigInteger num) {
+    private static List<String> getFiftyPlusBase(BigInteger num) {
         List<String> result = new ArrayList<>(getFourtyPlusBase(num));
         result.addAll(getTenPlusBase(num.subtract(BigInteger.valueOf(40))));
         return result;
     }
 
-    public static List<String> getSixtyPlusBase(BigInteger num) {
+    private static List<String> getSixtyPlusBase(BigInteger num) {
         List<String> result = new ArrayList<>();
         if (isEqualTo(num, BigInteger.valueOf(60))) {
             result.add(getName(BigInteger.valueOf(3)));
@@ -111,13 +111,13 @@ public class NumToLezgi {
         return result;
     }
 
-    public static List<String> getSeventyPlusBase(BigInteger num) {
+    private static List<String> getSeventyPlusBase(BigInteger num) {
         List<String> result = new ArrayList<>(getSixtyPlusBase(BigInteger.valueOf(61)));
         result.addAll(getTenPlusBase(num.subtract(BigInteger.valueOf(60))));
         return result;
     }
 
-    public static List<String> getEightyPlusBase(BigInteger num) {
+    private static List<String> getEightyPlusBase(BigInteger num) {
         List<String> result = new ArrayList<>();
         if (isEqualTo(num, BigInteger.valueOf(80))) {
             result.add(getName(BigInteger.valueOf(4)));
@@ -129,13 +129,13 @@ public class NumToLezgi {
         return result;
     }
 
-    public static List<String> getNinetyPlusBase(BigInteger num) {
+    private static List<String> getNinetyPlusBase(BigInteger num) {
         List<String> result = new ArrayList<>(getEightyPlusBase(BigInteger.valueOf(81)));
         result.addAll(getTenPlusBase(num.subtract(BigInteger.valueOf(80))));
         return result;
     }
 
-    public static List<String> getHundredPlusBase(BigInteger num) {
+    private static List<String> getHundredPlusBase(BigInteger num) {
         List<String> result = new ArrayList<>();
         result.add(getName(BigInteger.valueOf(100)));
         if (!isEqualTo(num.mod(BigInteger.valueOf(100)), BigInteger.ZERO)) {
@@ -144,7 +144,7 @@ public class NumToLezgi {
         return result;
     }
 
-    public static List<String> getHundredPlusNumCount(BigInteger num) {
+    private static List<String> getHundredPlusNumCount(BigInteger num) {
         if (getName(num) == null) {
             return null;
         }
@@ -154,7 +154,7 @@ public class NumToLezgi {
         return result;
     }
 
-    public static List<String> getBetweenHundredAndThousand(BigInteger num, BigInteger followUpNumber) {
+    private static List<String> getBetweenHundredAndThousand(BigInteger num, BigInteger followUpNumber) {
         BigInteger hundredsCount;
         hundredsCount = !isEqualTo(num.mod(BigInteger.valueOf(100)), BigInteger.ZERO)
                 ? num.subtract(num.mod(BigInteger.valueOf(100))) : num.divide(BigInteger.valueOf(100));
@@ -165,7 +165,7 @@ public class NumToLezgi {
         return result;
     }
 
-    public static List<String> getThousandPlusBase(BigInteger num) {
+    private static List<String> getThousandPlusBase(BigInteger num) {
         List<String> result = new ArrayList<>();
         result.add(getName(BigInteger.valueOf(1000)));
         if (!isEqualTo(num.mod(BigInteger.valueOf(1000)), BigInteger.ZERO)) {
@@ -174,7 +174,7 @@ public class NumToLezgi {
         return result;
     }
 
-    public static List<String> getBetweenThousandAndMillion(BigInteger num, BigInteger followUpNumber) {
+    private static List<String> getBetweenThousandAndMillion(BigInteger num, BigInteger followUpNumber) {
         BigInteger thousandsCount;
         thousandsCount = !isEqualTo(num.mod(BigInteger.valueOf(1000)), BigInteger.ZERO)
                 ? num.subtract(num.mod(BigInteger.valueOf(1000))) : num.divide(BigInteger.valueOf(1000));
@@ -188,7 +188,7 @@ public class NumToLezgi {
         return result;
     }
 
-    public static List<String> getMillionPlusBase(BigInteger num) {
+    private static List<String> getMillionPlusBase(BigInteger num) {
         List<String> result = new ArrayList<>();
         result.add(getName(MILLION));
         if (!isEqualTo(num.mod(MILLION), BigInteger.ZERO)) {
@@ -197,7 +197,7 @@ public class NumToLezgi {
         return result;
     }
 
-    public static List<String> getBetweenMillionAndBillion(BigInteger num, BigInteger followUpNumber) {
+    private static List<String> getBetweenMillionAndBillion(BigInteger num, BigInteger followUpNumber) {
         BigInteger millionsCount;
         millionsCount = !isEqualTo(num.mod(MILLION), BigInteger.ZERO)
                 ? num.subtract(num.mod(MILLION)) : num.divide(MILLION);
@@ -211,7 +211,7 @@ public class NumToLezgi {
         return result;
     }
 
-    public static List<String> getBillionPlusBase(BigInteger num) {
+    private static List<String> getBillionPlusBase(BigInteger num) {
         List<String> result = new ArrayList<>();
         result.add(getName(BILLION));
         if (!isEqualTo(num.mod(BILLION), BigInteger.ZERO)) {
@@ -220,7 +220,7 @@ public class NumToLezgi {
         return result;
     }
 
-    public static List<String> getBetweenBillionAndTrillion(BigInteger num, BigInteger followUpNumber) {
+    private static List<String> getBetweenBillionAndTrillion(BigInteger num, BigInteger followUpNumber) {
         BigInteger billionsCount;
         billionsCount = !isEqualTo(num.mod(BILLION), BigInteger.ZERO)
                 ? num.subtract(num.mod(BILLION)) : num.divide(BILLION);
@@ -234,7 +234,7 @@ public class NumToLezgi {
         return result;
     }
 
-    public static List<String> getTrillionPlusBase(BigInteger num) {
+    private static List<String> getTrillionPlusBase(BigInteger num) {
         List<String> result = new ArrayList<>();
         result.add(getName(TRILLION));
         if (!isEqualTo(num.mod(TRILLION), BigInteger.ZERO)) {
@@ -243,7 +243,7 @@ public class NumToLezgi {
         return result;
     }
 
-    public static List<String> getBetweenTrillionAndQuadrillion(BigInteger num, BigInteger followUpNumber) {
+    private static List<String> getBetweenTrillionAndQuadrillion(BigInteger num, BigInteger followUpNumber) {
         BigInteger trillionsCount;
         trillionsCount = !isEqualTo(num.mod(TRILLION), BigInteger.ZERO)
                 ? num.subtract(num.mod(TRILLION)) : num.divide(TRILLION);
@@ -257,7 +257,7 @@ public class NumToLezgi {
         return result;
     }
 
-    public static List<String> getQuadrillionPlusBase(BigInteger num) {
+    private static List<String> getQuadrillionPlusBase(BigInteger num) {
         List<String> result = new ArrayList<>();
         result.add(getName(QUADRILLION));
         if (!isEqualTo(num.mod(QUADRILLION), BigInteger.ZERO)) {
@@ -266,7 +266,7 @@ public class NumToLezgi {
         return result;
     }
 
-    public static List<String> getBetweenQuadrillionAndQuintillion(BigInteger num, BigInteger followUpNumber) {
+    private static List<String> getBetweenQuadrillionAndQuintillion(BigInteger num, BigInteger followUpNumber) {
         BigInteger quadrillionsCount;
         quadrillionsCount = !isEqualTo(num.mod(QUADRILLION), BigInteger.ZERO)
                 ? num.subtract(num.mod(QUADRILLION)) : num.divide(QUADRILLION);
@@ -280,7 +280,7 @@ public class NumToLezgi {
         return result;
     }
 
-    public static List<String> getQuintillionPlusBase(BigInteger num) {
+    private static List<String> getQuintillionPlusBase(BigInteger num) {
         List<String> result = new ArrayList<>();
         result.add(getName(QUINTILLION));
         if (!isEqualTo(num.mod(QUINTILLION), BigInteger.ZERO)) {
@@ -289,7 +289,7 @@ public class NumToLezgi {
         return result;
     }
 
-    public static List<String> getBetweenQuintillionAndSextillion(BigInteger num, BigInteger followUpNumber) {
+    private static List<String> getBetweenQuintillionAndSextillion(BigInteger num, BigInteger followUpNumber) {
         BigInteger quintillionsCount;
         quintillionsCount = !isEqualTo(num.mod(QUINTILLION), BigInteger.ZERO)
                 ? num.subtract(num.mod(QUINTILLION)) : num.divide(QUINTILLION);
@@ -303,7 +303,7 @@ public class NumToLezgi {
         return result;
     }
 
-    public static List<String> getSextillionPlusBase(BigInteger num) {
+    private static List<String> getSextillionPlusBase(BigInteger num) {
         List<String> result = new ArrayList<>();
         result.add(getName(SEXTILLION));
         if (!isEqualTo(num.mod(SEXTILLION), BigInteger.ZERO)) {
@@ -312,7 +312,7 @@ public class NumToLezgi {
         return result;
     }
 
-    public static List<String> getBetweenSextillionAndSeptillion(BigInteger num, BigInteger followUpNumber) {
+    private static List<String> getBetweenSextillionAndSeptillion(BigInteger num, BigInteger followUpNumber) {
         BigInteger sextillionsCount;
         sextillionsCount = !isEqualTo(num.mod(SEXTILLION), BigInteger.ZERO)
                 ? num.subtract(num.mod(SEXTILLION)) : num.divide(SEXTILLION);
@@ -326,7 +326,7 @@ public class NumToLezgi {
         return result;
     }
 
-    public static List<String> getSeptillionPlusBase(BigInteger num) {
+    private static List<String> getSeptillionPlusBase(BigInteger num) {
         List<String> result = new ArrayList<>();
         result.add(getName(SEPTILLION));
         if (!isEqualTo(num.mod(SEPTILLION), BigInteger.ZERO)) {
@@ -335,7 +335,7 @@ public class NumToLezgi {
         return result;
     }
 
-    public static List<String> getBetweenSeptillionAndOctillion(BigInteger num, BigInteger followUpNumber) {
+    private static List<String> getBetweenSeptillionAndOctillion(BigInteger num, BigInteger followUpNumber) {
         BigInteger septillionsCount;
         septillionsCount = !isEqualTo(num.mod(SEPTILLION), BigInteger.ZERO)
                 ? num.subtract(num.mod(SEPTILLION)) : num.divide(SEPTILLION);
@@ -349,7 +349,7 @@ public class NumToLezgi {
         return result;
     }
 
-    public static List<String> getOctillionPlusBase(BigInteger num) {
+    private static List<String> getOctillionPlusBase(BigInteger num) {
         List<String> result = new ArrayList<>();
         result.add(getName(OCTILLION));
         if (!isEqualTo(num.mod(OCTILLION), BigInteger.ZERO)) {
@@ -358,7 +358,7 @@ public class NumToLezgi {
         return result;
     }
 
-    public static List<String> getBetweenOctillionAndNonillion(BigInteger num, BigInteger followUpNumber) {
+    private static List<String> getBetweenOctillionAndNonillion(BigInteger num, BigInteger followUpNumber) {
         BigInteger octillionsCount;
         octillionsCount = !isEqualTo(num.mod(OCTILLION), BigInteger.ZERO)
                 ? num.subtract(num.mod(OCTILLION)) : num.divide(OCTILLION);
@@ -372,7 +372,7 @@ public class NumToLezgi {
         return result;
     }
 
-    public static List<String> getNonillionPlusBase(BigInteger num) {
+    private static List<String> getNonillionPlusBase(BigInteger num) {
         List<String> result = new ArrayList<>();
         result.add(getName(NONILLION));
         if (!isEqualTo(num.mod(NONILLION), BigInteger.ZERO)) {
@@ -381,7 +381,7 @@ public class NumToLezgi {
         return result;
     }
 
-    public static List<String> getCompound(BigInteger num) {
+    private static List<String> getCompound(BigInteger num) {
         List<BigInteger> units = separateNumberIntoUnits(num);
         List<String> result = new ArrayList<>();
         for (int i = 0; i < units.size(); i++) {
@@ -466,7 +466,7 @@ public class NumToLezgi {
         return result;
     }
 
-    public static List<String> getAtomicOrCompound(BigInteger num) {
+    private static List<String> getAtomicOrCompound(BigInteger num) {
         List<String> result = new ArrayList<>();
         if (getName(num) != null) {
             result.add(getName(num));
@@ -474,6 +474,28 @@ public class NumToLezgi {
             result.addAll(getCompound(num));
         }
         return result;
+    }
+
+    private static boolean isGreaterThan(BigInteger num, BigInteger compareValue) {
+        return num.compareTo(compareValue) > 0;
+    }
+
+    private static boolean isLessThan(BigInteger num, BigInteger compareValue) {
+        return num.compareTo(compareValue) < 0;
+    }
+
+    private static boolean isEqualTo(BigInteger num, BigInteger compareValue) {
+        return num.compareTo(compareValue) == 0;
+    }
+
+    private static String getName(BigInteger num) {
+        return getAtomicValueByKey(num);
+    }
+
+    private static void throwCustomException(BigInteger num) {
+        if (num == null) {
+            throw new IllegalArgumentException("Provided value is null");
+        }
     }
 
     /**
@@ -484,9 +506,7 @@ public class NumToLezgi {
      * @throws IllegalArgumentException if the provided number is null.
      */
     public static List<String> numToLezgiList(BigInteger num) {
-        if (num == null) {
-            throw new IllegalArgumentException("Provided value is null");
-        }
+        throwCustomException(num);
         boolean isNegative = num.signum() < 0;
         num = num.abs();
         List<String> result = new ArrayList<>();
@@ -510,23 +530,8 @@ public class NumToLezgi {
      * @return The Lezgi representation of the given number.
      */
     public static String numToLezgi(BigInteger num) {
+        throwCustomException(num);
         return String.join("", numToLezgiList(num));
-    }
-
-    public static boolean isGreaterThan(BigInteger num, BigInteger compareValue) {
-        return num.compareTo(compareValue) > 0;
-    }
-
-    public static boolean isLessThan(BigInteger num, BigInteger compareValue) {
-        return num.compareTo(compareValue) < 0;
-    }
-
-    public static boolean isEqualTo(BigInteger num, BigInteger compareValue) {
-        return num.compareTo(compareValue) == 0;
-    }
-
-    public static String getName(BigInteger num) {
-        return getAtomicValueByKey(num);
     }
 
     private static class Range {
