@@ -6,6 +6,7 @@ import java.math.BigInteger;
 import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 class LezgiToNumTest {
     @Test
@@ -40,5 +41,14 @@ class LezgiToNumTest {
         map.forEach((k, v) -> {
             assertThat(LezgiToNum.lezgiToNum(k)).isEqualTo(v);
         });
+        assertThatThrownBy(() -> LezgiToNum.lezgiToNum(null))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Provided value is not a string");
+        assertThatThrownBy(() -> LezgiToNum.lezgiToNum("садь"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Provided value is not a valid Lezgi numeral");
+        assertThatThrownBy(() -> LezgiToNum.lezgiToNum("вишни квед"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Provided value is not a valid Lezgi numeral: квед");
     }
 }
