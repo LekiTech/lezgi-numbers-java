@@ -6,7 +6,7 @@ import java.util.List;
 
 import static io.lekitech.Constants.*;
 
-public class LezgiToNum {
+class LezgiToNum {
     public static BigInteger lezgiToNum(String lezgiNum) {
         if (lezgiNum == null) {
             throw new IllegalArgumentException("Provided value is not a string");

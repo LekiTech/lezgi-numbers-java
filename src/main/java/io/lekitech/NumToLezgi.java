@@ -6,7 +6,7 @@ import java.util.List;
 
 import static io.lekitech.Constants.*;
 
-public class NumToLezgi {
+class NumToLezgi {
     private static List<BigInteger> separateNumberIntoUnits(BigInteger num) {
         if (isEqualTo(num, BigInteger.ZERO)) {
             return List.of(BigInteger.ZERO);
@@ -492,21 +492,14 @@ public class NumToLezgi {
         return getAtomicValueByKey(num);
     }
 
-    private static void throwCustomException(BigInteger num) {
+    private static void handleNullValue(BigInteger num) {
         if (num == null) {
             throw new IllegalArgumentException("Provided value is null");
         }
     }
 
-    /**
-     * Converts a BigInteger number to its Lezgi language representation.
-     *
-     * @param num The BigInteger number to be converted.
-     * @return The Lezgi language representation of the given number.
-     * @throws IllegalArgumentException if the provided number is null.
-     */
     public static List<String> numToLezgiList(BigInteger num) {
-        throwCustomException(num);
+        handleNullValue(num);
         boolean isNegative = num.signum() < 0;
         num = num.abs();
         List<String> result = new ArrayList<>();
@@ -523,14 +516,8 @@ public class NumToLezgi {
         return result;
     }
 
-    /**
-     * Converts a BigInteger to a Lezgi representation.
-     *
-     * @param num The number to be converted.
-     * @return The Lezgi representation of the given number.
-     */
     public static String numToLezgi(BigInteger num) {
-        throwCustomException(num);
+        handleNullValue(num);
         return String.join("", numToLezgiList(num));
     }
 

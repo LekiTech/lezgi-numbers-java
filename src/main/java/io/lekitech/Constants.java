@@ -4,7 +4,7 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class Constants {
+final class Constants {
     public static final BigInteger MILLION =
             new BigInteger("1000000");
     public static final BigInteger BILLION =
