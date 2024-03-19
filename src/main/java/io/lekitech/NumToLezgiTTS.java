@@ -24,8 +24,10 @@ class NumToLezgiTTS {
     // THE METHODS BELOW ARE IMPLEMENTED FOR TESTING
     private static void play(byte[] audioData) {
         try {
-            AudioFormat format = new AudioFormat(44100, 16, 2, true, false);
-            AudioInputStream audioInputStream = new AudioInputStream(new ByteArrayInputStream(audioData), format,
+            AudioFormat format =
+                    new AudioFormat(44100, 16, 2, true, false);
+            AudioInputStream audioInputStream =
+                    new AudioInputStream(new ByteArrayInputStream(audioData), format,
                     audioData.length / format.getFrameSize());
             DataLine.Info info = new DataLine.Info(SourceDataLine.class, format);
             SourceDataLine line = (SourceDataLine) AudioSystem.getLine(info);
