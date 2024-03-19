@@ -1,5 +1,6 @@
 package io.lekitech;
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -36,5 +37,16 @@ public class LezgiNumbers {
      */
     public static BigInteger lezgiToNum(String num) {
         return LezgiToNum.lezgiToNum(num);
+    }
+
+    /**
+     * Converts numerical data from a file into Lezgi text-to-speech (TTS) format.
+     *
+     * @param filePath the path to the file containing numerical data to be converted.
+     * @return a byte array representing the Lezgi TTS format of the numbers found in the file.
+     * @throws IOException if an I/O error occurs reading from the file or if the file cannot be found.
+     */
+    public static byte[] numToLezgiTTS(String filePath) throws IOException {
+        return NumToLezgiTTS.numToLezgiTTS(filePath);
     }
 }
